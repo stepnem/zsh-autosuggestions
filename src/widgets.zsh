@@ -96,11 +96,12 @@ _zsh_autosuggest_fetch() {
 # Offer a suggestion
 _zsh_autosuggest_suggest() {
 	emulate -L zsh
+	setopt EXTENDED_GLOB
 
 	local suggestion="$1"
 
 	if [[ -n "$suggestion" ]] && (( $#BUFFER )); then
-		POSTDISPLAY="${suggestion#$BUFFER}"
+		POSTDISPLAY="${suggestion#${BUFFER##[ $'\t\n']##}}"
 	else
 		unset POSTDISPLAY
 	fi
